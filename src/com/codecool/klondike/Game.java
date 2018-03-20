@@ -56,6 +56,7 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
+        if (card.isFaceDown()) { return; }
         Pile activePile = card.getContainingPile();
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
@@ -199,13 +200,13 @@ public class Game extends Pane {
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
         new java.util.Timer().schedule(
-                new java.util.TimerTask() {
-                    @Override
-                    public void run() {
-                        flipTableauFaceDownCard();
-                    }
-                },
-                165
+            new java.util.TimerTask() {
+                @Override
+                public void run() {
+                    flipTableauFaceDownCard();
+                }
+            },
+            165
         );
     }
 
