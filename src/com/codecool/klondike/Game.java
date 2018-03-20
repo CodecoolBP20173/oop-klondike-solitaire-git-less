@@ -183,21 +183,29 @@ public class Game extends Pane {
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
         //TODO
-        for (int i = 1; i < tableauPiles.size(); i++) {
-            for (int j = 1; j <= i; j++) {
+        /** Dealing facedown cards to each tableau */
+        for (int i = 0; i < tableauPiles.size(); i++) {
+            for (int j = 0; j <= i; j++) {
                 Card card = deckIterator.next();
                 tableauPiles.get(i).addCard(card);
                 getChildren().add(card);
             }
         }
-        //discardPile.addCard(deckIterator.next());
+        /** Dealing faceup cards */
+        for (int i = 0; i < tableauPiles.size(); i++) {
+            Card topCard = tableauPiles.get(i).getTopCard();
+            flipTopCard(topCard);
+        }
         deckIterator.forEachRemaining(card -> {
-            //discardPile.addCard(card);
             stockPile.addCard(card);
             addMouseEventHandlers(card);
             getChildren().add(card);
         });
 
+    }
+
+    public static void flipTopCard(Card card) {
+        card.flip();
     }
 
     public void setTableBackground(Image tableBackground) {
