@@ -198,6 +198,27 @@ public class Game extends Pane {
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
+        new java.util.Timer().schedule(
+                new java.util.TimerTask() {
+                    @Override
+                    public void run() {
+                        flipTableauFaceDownCard();
+                    }
+                },
+                165
+        );
+    }
+
+    private void flipTableauFaceDownCard() {
+        for (int i = 0; i < tableauPiles.size(); i++) {
+            try {
+                Card topCard = tableauPiles.get(i).getTopCard();
+                if (topCard.isFaceDown()) {
+                    topCard.flip();
+                }
+            } catch (NullPointerException e) { continue; }
+
+        }
     }
 
 
