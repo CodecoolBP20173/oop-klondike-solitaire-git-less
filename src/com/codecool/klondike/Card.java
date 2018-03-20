@@ -93,6 +93,10 @@ public class Card extends ImageView {
                 result.add(new Card(suit, rank, true));
             }
         }
+        for (int i = 0; i < result.size(); i++) {
+            System.out.println("The name of this card is: " + result.get(i));
+        }
+        Collections.shuffle(result);
         return result;
     }
 
