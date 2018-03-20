@@ -10,7 +10,7 @@ import javafx.event.EventHandler;
 
 public class Klondike extends Application {
 
-    private static final double WINDOW_WIDTH = 1400;
+    private static final double WINDOW_WIDTH = 1200;
     private static final double WINDOW_HEIGHT = 900;
 
     public static void main(String[] args) {
