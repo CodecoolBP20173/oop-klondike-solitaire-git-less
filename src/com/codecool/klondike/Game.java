@@ -107,7 +107,7 @@ public class Game extends Pane {
 
     public void refillStockFromDiscard() {
         int numberOfCards = discardPile.numOfCards();
-        for (int i = 0; i < numberOfCards; i++){
+        for (int i = 0; i < numberOfCards; i++) {
             Card card = discardPile.getTopCard();
             card.moveToPile(stockPile);
             card.flip();
@@ -117,9 +117,50 @@ public class Game extends Pane {
     }
 
     public boolean isMoveValid(Card card, Pile destPile) {
-
-        return true;
+        int numberOfCards = destPile.numOfCards();
+        //If you put card on TABLEAU
+        if (destPile.getPileType() == Pile.PileType.TABLEAU) {
+            //When the TABLEAU is empty
+            if (numberOfCards == 0) {
+                //13 is the King
+                if (card.getRank() == 13) {
+                    return true;
+                } else {
+                    return false;
+                }
+                //When the TABLEAU is not empty
+            } else {
+                //If the card's rank 1 rank lower then the top card of the TABLEAU and their color is different
+                if (destPile.getTopCard().getRank()-1 == card.getRank() && Card.isOppositeColor(destPile.getTopCard(), card)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        //If you put card on FOUNDATION
+        if (destPile.getPileType() == Pile.PileType.FOUNDATION) {
+            //When the FOUNDATION is empty
+            if (numberOfCards == 0) {
+                //1 is the Ace
+                if (card.getRank() == 1) {
+                    return true;
+                } else {
+                    return false;
+                }
+                //When the FOUNDATION is not empty
+            } else {
+                //If the card's rank 1 rank higher then the top card of the FOUNDATION and their suit is the same
+                if (destPile.getTopCard().getRank() == card.getRank()-1 && Card.isSameSuit(destPile.getTopCard(), card)) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        return false;
     }
+
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
         for (Pile pile : piles) {
