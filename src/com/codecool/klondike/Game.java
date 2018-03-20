@@ -123,7 +123,7 @@ public class Game extends Pane {
             //When the TABLEAU is empty
             if (numberOfCards == 0) {
                 //13 is the King
-                if (card.getRank() == 13) {
+                if (card.getRank() == RankType.KING) {
                     return true;
                 } else {
                     return false;
@@ -143,7 +143,7 @@ public class Game extends Pane {
             //When the FOUNDATION is empty
             if (numberOfCards == 0) {
                 //1 is the Ace
-                if (card.getRank() == 1) {
+                if (card.getRank() == RankType.ACE) {
                     return true;
                 } else {
                     return false;
