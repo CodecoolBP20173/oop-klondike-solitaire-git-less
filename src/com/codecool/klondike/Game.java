@@ -87,7 +87,7 @@ public class Game extends Pane {
             handleValidMove(card, pile2);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -167,9 +167,7 @@ public class Game extends Pane {
 
     private Pile getValidIntersectingPile(Card card, List<Pile> piles) {
         Pile result = null;
-        Pile cardPile = card.getContainingPile();
         for (Pile pile : piles) {
-            System.out.println(pile.getPileType());
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
                     isMoveValid(card, pile)) {
