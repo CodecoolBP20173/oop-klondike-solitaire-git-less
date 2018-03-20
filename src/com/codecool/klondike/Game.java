@@ -123,7 +123,7 @@ public class Game extends Pane {
             //When the TABLEAU is empty
             if (numberOfCards == 0) {
                 //13 is the King
-                if (card.getRank() == 13) {
+                if (card.getRank() == RankType.KING) {
                     return true;
                 } else {
                     return false;
@@ -131,7 +131,7 @@ public class Game extends Pane {
                 //When the TABLEAU is not empty
             } else {
                 //If the card's rank 1 rank lower then the top card of the TABLEAU and their color is different
-                if (destPile.getTopCard().getRank()-1 == card.getRank() && Card.isOppositeColor(destPile.getTopCard(), card)) {
+                if (destPile.getTopCard().getPreviousRank() == card.getRank() && Card.isOppositeColor(destPile.getTopCard(), card)) {
                     return true;
                 } else {
                     return false;
@@ -143,7 +143,7 @@ public class Game extends Pane {
             //When the FOUNDATION is empty
             if (numberOfCards == 0) {
                 //1 is the Ace
-                if (card.getRank() == 1) {
+                if (card.getRank() == RankType.ACE) {
                     return true;
                 } else {
                     return false;
@@ -151,7 +151,7 @@ public class Game extends Pane {
                 //When the FOUNDATION is not empty
             } else {
                 //If the card's rank 1 rank higher then the top card of the FOUNDATION and their suit is the same
-                if (destPile.getTopCard().getRank() == card.getRank()-1 && Card.isSameSuit(destPile.getTopCard(), card)) {
+                if (destPile.getTopCard().getRank() == card.getPreviousRank() && Card.isSameSuit(destPile.getTopCard(), card)) {
                     return true;
                 } else {
                     return false;
