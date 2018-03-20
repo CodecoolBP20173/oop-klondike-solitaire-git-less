@@ -14,6 +14,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -78,12 +79,15 @@ public class Game extends Pane {
             return;
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
+        Pile pile2 = getValidIntersectingPile(card, foundationPiles);
         //TODO
         if (pile != null) {
             handleValidMove(card, pile);
+        } else if (pile2 != null){
+            handleValidMove(card, pile2);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
-            draggedCards = null;
+            draggedCards.clear();
         }
     };
 
@@ -166,8 +170,10 @@ public class Game extends Pane {
         for (Pile pile : piles) {
             if (!pile.equals(card.getContainingPile()) &&
                     isOverPile(card, pile) &&
-                    isMoveValid(card, pile))
+                    isMoveValid(card, pile)) {
                 result = pile;
+                break;
+            }
         }
         return result;
     }
@@ -235,6 +241,7 @@ public class Game extends Pane {
             for (int j = 0; j <= i; j++) {
                 Card card = deckIterator.next();
                 tableauPiles.get(i).addCard(card);
+                addMouseEventHandlers(card);
                 getChildren().add(card);
             }
         }
