@@ -42,6 +42,18 @@ public class Card extends ImageView {
         return rank;
     }
 
+    public RankType getPreviousRank() {
+        RankType actualRank = getRank();
+        RankType previousRank = RankType.ACE;
+        for (RankType rank : RankType.values()) {
+            if (rank.equals(actualRank)) {
+                return previousRank;
+            }
+            previousRank = rank;
+        }
+        return previousRank;
+    }
+
     public boolean isFaceDown() {
         return faceDown;
     }
