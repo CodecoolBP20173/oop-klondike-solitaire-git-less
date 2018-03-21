@@ -108,12 +108,11 @@ public class Game extends Pane {
 
         } else{
             Platform.exit();
-        }it
+        }
 
     }
 
     public Game() {
-        infoBox("GG", "GG");
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
