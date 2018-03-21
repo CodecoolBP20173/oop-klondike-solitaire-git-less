@@ -17,6 +17,15 @@ public class Klondike extends Application {
         launch(args);
     }
 
+    void cleanup() {
+        // stop animations reset model ect.
+    }
+
+    void restart(Stage stage) {
+        cleanup();
+        start(stage);
+    }
+
     @Override
     public void start(Stage primaryStage) {
         Card.loadCardImages();
@@ -25,12 +34,12 @@ public class Klondike extends Application {
 
         // add button to game Pane
         Button button = new Button("Restart");
-        button.setLayoutX(800);
-        button.setLayoutY(650);
+        button.setLayoutX(10);
+        button.setLayoutY(40);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-               // ToDO restart
+               restart(primaryStage);
             }
         });
         game.getChildren().add(button);
