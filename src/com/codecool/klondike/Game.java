@@ -40,11 +40,28 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
+        Pile.PileType pileType = card.getContainingPile().getPileType();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK) {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
             System.out.println("Placed " + card + " to the waste.");
+        }
+        if (e.getClickCount() == 2 && !e.isConsumed()) {
+            e.consume();
+            Boolean putOnFoundation;
+            List<Card> cardList = new ArrayList<>();
+            cardList.add(card);
+            if (!pileType.equals(Pile.PileType.STOCK)){
+                for (Pile pile: foundationPiles){
+                    putOnFoundation = isMoveValid(card, pile);
+                    if (putOnFoundation){
+                        handleValidMove(card, pile);
+                        MouseUtil.slideToDest(cardList, pile);
+                        break;
+                    }
+                }
+            }
         }
     };
 
