@@ -2,6 +2,7 @@ package com.codecool.klondike;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.image.Image;
@@ -60,19 +61,42 @@ public class Game extends Pane {
         Pile activePile = card.getContainingPile();
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
-        double offsetX = e.getSceneX() - dragStartX;
-        double offsetY = e.getSceneY() - dragStartY;
+        if (activePile.getPileType().equals(Pile.PileType.TABLEAU)) {
+            draggedCards.clear();
+            ObservableList actualPileCards = card.getContainingPile().getCards();
+            for (int i = actualPileCards.indexOf(card); i < actualPileCards.size(); i++) {
+                draggedCards.add((Card)actualPileCards.get(i));
+            }
+            
+            double offsetX = e.getSceneX() - dragStartX;
+            double offsetY = e.getSceneY() - dragStartY;
 
-        draggedCards.clear();
-        draggedCards.add(card);
+            for (int i = 0; i < draggedCards.size(); i++) {
+                draggedCards.get(i).toFront();
+                draggedCards.get(i).setTranslateX(offsetX);
+                draggedCards.get(i).setTranslateY(offsetY);
 
-        card.getDropShadow().setRadius(20);
-        card.getDropShadow().setOffsetX(10);
-        card.getDropShadow().setOffsetY(10);
+                card.getDropShadow().setRadius(20);
+                card.getDropShadow().setOffsetX(10);
+                card.getDropShadow().setOffsetY(10);
+            }
 
-        card.toFront();
-        card.setTranslateX(offsetX);
-        card.setTranslateY(offsetY);
+        } else {
+            double offsetX = e.getSceneX() - dragStartX;
+            double offsetY = e.getSceneY() - dragStartY;
+
+            draggedCards.clear();
+            draggedCards.add(card);
+
+            card.getDropShadow().setRadius(20);
+            card.getDropShadow().setOffsetX(10);
+            card.getDropShadow().setOffsetY(10);
+
+            card.toFront();
+            card.setTranslateX(offsetX);
+            card.setTranslateY(offsetY);
+        }
+
     };
 
     private EventHandler<MouseEvent> onMouseReleasedHandler = e -> {
@@ -199,27 +223,6 @@ public class Game extends Pane {
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
         draggedCards.clear();
-        new java.util.Timer().schedule(
-            new java.util.TimerTask() {
-                @Override
-                public void run() {
-                    flipTableauFaceDownCard();
-                }
-            },
-            165
-        );
-    }
-
-    private void flipTableauFaceDownCard() {
-        for (int i = 0; i < tableauPiles.size(); i++) {
-            try {
-                Card topCard = tableauPiles.get(i).getTopCard();
-                if (topCard.isFaceDown()) {
-                    topCard.flip();
-                }
-            } catch (NullPointerException e) { continue; }
-
-        }
     }
 
 
