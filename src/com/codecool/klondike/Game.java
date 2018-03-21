@@ -81,7 +81,6 @@ public class Game extends Pane {
         Card card = (Card) e.getSource();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
         Pile pile2 = getValidIntersectingPile(card, foundationPiles);
-        //TODO
         if (pile != null) {
             handleValidMove(card, pile);
         } else if (pile2 != null){
@@ -93,8 +92,15 @@ public class Game extends Pane {
     };
 
     public boolean isGameWon() {
-        //TODO
-        return false;
+        int numberOfCards = 0;
+        for (Pile pile: foundationPiles){
+            numberOfCards = numberOfCards + pile.numOfCards();
+        }
+        if (numberOfCards == 52){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public Game() {
@@ -257,7 +263,6 @@ public class Game extends Pane {
 
     public void dealCards() {
         Iterator<Card> deckIterator = deck.iterator();
-        //TODO
         /** Dealing facedown cards to each tableau */
         for (int i = 0; i < tableauPiles.size(); i++) {
             for (int j = 0; j <= i; j++) {
