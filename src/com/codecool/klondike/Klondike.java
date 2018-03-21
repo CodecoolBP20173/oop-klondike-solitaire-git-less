@@ -18,6 +18,25 @@ public class Klondike extends Application {
             launch(args);
     }
 
+    void cleanup() {
+        // stop animations reset model ect.
+    }
+
+    void restart(Stage stage) {
+        cleanup();
+        start(stage);
+    }
+
+    void restartPopup(String infoMessage, String titleBar, Stage stage)
+    {
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to restart the game?","Restart!",dialogButton);
+        if (dialogResult == JOptionPane.YES_OPTION){
+            restart(stage);
+        }
+
+    }
+
     @Override
     public void start(Stage primaryStage) {
             Card.loadCardImages();
@@ -26,12 +45,12 @@ public class Klondike extends Application {
 
         // add button to game Pane
         Button button = new Button("Restart");
-        button.setLayoutX(800);
-        button.setLayoutY(650);
+        button.setLayoutX(10);
+        button.setLayoutY(40);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-               // ToDO restart
+               restartPopup("GG", "GG", primaryStage);
             }
         });
         game.getChildren().add(button);
