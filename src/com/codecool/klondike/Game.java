@@ -1,5 +1,6 @@
 package com.codecool.klondike;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+import javax.swing.JOptionPane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -97,7 +99,21 @@ public class Game extends Pane {
         return false;
     }
 
+
+    public static void infoBox(String infoMessage, String titleBar)
+    {
+        int dialogButton = JOptionPane.YES_NO_OPTION;
+        int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to play another game?","GG You won!",dialogButton);
+        if (dialogResult == JOptionPane.YES_OPTION){
+
+        } else{
+            Platform.exit();
+        }it
+
+    }
+
     public Game() {
+        infoBox("GG", "GG");
         deck = Card.createNewDeck();
         initPiles();
         dealCards();
