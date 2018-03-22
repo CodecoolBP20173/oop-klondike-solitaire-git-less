@@ -43,11 +43,31 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseClickedHandler = e -> {
         Card card = (Card) e.getSource();
+        Pile.PileType pileType = card.getContainingPile().getPileType();
         if (card.getContainingPile().getPileType() == Pile.PileType.STOCK) {
             card.moveToPile(discardPile);
             card.flip();
             card.setMouseTransparent(false);
             System.out.println("Placed " + card + " to the waste.");
+        }
+        Card topCard = card.getContainingPile().getTopCard();
+        if (e.getClickCount() == 2 && !e.isConsumed()) {
+            e.consume();
+            if (topCard == card) {
+                Boolean putOnFoundation;
+                List<Card> cardList = new ArrayList<>();
+                cardList.add(card);
+                if (!pileType.equals(Pile.PileType.STOCK)){
+                    for (Pile pile: foundationPiles){
+                        putOnFoundation = isMoveValid(card, pile);
+                        if (putOnFoundation){
+                            handleValidMove(card, pile);
+                            MouseUtil.slideToDest(cardList, pile);
+                            break;
+                        }
+                    }
+                }
+            }
         }
     };
 
@@ -110,12 +130,18 @@ public class Game extends Pane {
         if (draggedCards.isEmpty())
             return;
         Card card = (Card) e.getSource();
+        Card topCard = card.getContainingPile().getTopCard();
         Pile pile = getValidIntersectingPile(card, tableauPiles);
         Pile pile2 = getValidIntersectingPile(card, foundationPiles);
         if (pile != null) {
             handleValidMove(card, pile);
-        } else if (pile2 != null) {
-            handleValidMove(card, pile2);
+        } else if (pile2 != null){
+            if(topCard == card){
+                handleValidMove(card, pile2);
+            } else {
+                draggedCards.forEach(MouseUtil::slideBack);
+                draggedCards.clear();
+            }
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
             draggedCards.clear();
