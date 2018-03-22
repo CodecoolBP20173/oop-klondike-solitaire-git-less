@@ -13,7 +13,7 @@ public class Card extends ImageView {
     private RankType rank;
     private boolean faceDown;
 
-    private Image backFace;
+    static Image backFace;
     private Image frontFace;
     private Pile containingPile;
     private DropShadow dropShadow;
@@ -36,6 +36,10 @@ public class Card extends ImageView {
 
     public SuitType getSuit() {
         return suit;
+    }
+
+    public static void changeBackFace(Image back) {
+        backFace = back;
     }
 
     public RankType getRank() {
@@ -134,6 +138,17 @@ public class Card extends ImageView {
                 String cardName = suit.suitName + rank.rankNumber;
                 String cardId = "S" + suit.suitNumber + "R" + rank.rankNumber;
                 String imageFileName = "card_images/" + cardName + ".png";
+                cardFaceImages.put(cardId, new Image(imageFileName));
+            }
+        }
+    }
+    public static void loadCardImagesCc() {
+        cardBackImage = new Image("card_images/card_back_cc.png");
+        for (SuitType suit : SuitType.values()) {
+            for (RankType rank : RankType.values()) {
+                String cardName = suit.suitName + rank.rankNumber;
+                String cardId = "S" + suit.suitNumber + "R" + rank.rankNumber;
+                String imageFileName = "card_images2/" + cardName + ".png";
                 cardFaceImages.put(cardId, new Image(imageFileName));
             }
         }
