@@ -26,7 +26,7 @@ public class Klondike extends Application {
         // stop animations reset model ect.
     }
 
-    void restart(Stage stage) {
+    public void restart(Stage stage) {
         cleanup();
         start(stage);
     }
