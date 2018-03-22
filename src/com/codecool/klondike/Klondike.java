@@ -62,7 +62,7 @@ public class Klondike extends Application {
         button.setLayoutX(10);
         button.setLayoutY(40);
         menuButton.setLayoutX(10);
-        menuButton.setLayoutY(200);
+        menuButton.setLayoutY(70);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -100,7 +100,7 @@ public class Klondike extends Application {
         button.setLayoutX(10);
         button.setLayoutY(40);
         menuButton.setLayoutX(10);
-        menuButton.setLayoutY(200);
+        menuButton.setLayoutY(70);
         button.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
