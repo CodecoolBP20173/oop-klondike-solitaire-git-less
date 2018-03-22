@@ -59,11 +59,11 @@ public class MouseUtil {
                         currentCard.getDropShadow().setRadius(2);
                         currentCard.getDropShadow().setOffsetX(0);
                         currentCard.getDropShadow().setOffsetY(0);
-                        if (currentPile.getTopCard().isFaceDown()) {
-                            currentPile.getTopCard().flip();
-                        }
-
-
+                        try {
+                            if (currentPile.getTopCard().isFaceDown()) {
+                                currentPile.getTopCard().flip();
+                            }
+                        } catch (NullPointerException message) {}
                     });
         }
 
