@@ -22,12 +22,12 @@ public class Klondike extends Application {
         // stop animations reset model ect.
     }
 
-    void restart(Stage stage) {
+    public void restart(Stage stage) {
         cleanup();
         start(stage);
     }
 
-    void restartPopup(String infoMessage, String titleBar, Stage stage)
+    public void restartPopup(String infoMessage, String titleBar, Stage stage)
     {
         int dialogButton = JOptionPane.YES_NO_OPTION;
         int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to restart the game?","Restart!",dialogButton);

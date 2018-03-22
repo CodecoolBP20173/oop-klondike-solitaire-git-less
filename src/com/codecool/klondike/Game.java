@@ -1,5 +1,6 @@
 package com.codecool.klondike;
 
+import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -14,8 +15,10 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
+
 import javax.swing.JOptionPane;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -59,7 +62,9 @@ public class Game extends Pane {
 
     private EventHandler<MouseEvent> onMouseDraggedHandler = e -> {
         Card card = (Card) e.getSource();
-        if (card.isFaceDown()) { return; }
+        if (card.isFaceDown()) {
+            return;
+        }
         Pile activePile = card.getContainingPile();
         if (activePile.getPileType() == Pile.PileType.STOCK)
             return;
@@ -67,9 +72,9 @@ public class Game extends Pane {
             draggedCards.clear();
             ObservableList actualPileCards = card.getContainingPile().getCards();
             for (int i = actualPileCards.indexOf(card); i < actualPileCards.size(); i++) {
-                draggedCards.add((Card)actualPileCards.get(i));
+                draggedCards.add((Card) actualPileCards.get(i));
             }
-            
+
             double offsetX = e.getSceneX() - dragStartX;
             double offsetY = e.getSceneY() - dragStartY;
 
@@ -109,7 +114,7 @@ public class Game extends Pane {
         Pile pile2 = getValidIntersectingPile(card, foundationPiles);
         if (pile != null) {
             handleValidMove(card, pile);
-        } else if (pile2 != null){
+        } else if (pile2 != null) {
             handleValidMove(card, pile2);
         } else {
             draggedCards.forEach(MouseUtil::slideBack);
@@ -119,27 +124,19 @@ public class Game extends Pane {
 
     public boolean isGameWon() {
         int numberOfCards = 0;
-        for (Pile pile: foundationPiles){
+        for (Pile pile : foundationPiles) {
             numberOfCards = numberOfCards + pile.numOfCards();
         }
-        if (numberOfCards == 52){
+        if (numberOfCards == 51) {
             return true;
         } else {
             return false;
         }
     }
 
-
-    public static void infoBox(String infoMessage, String titleBar)
-    {
-        int dialogButton = JOptionPane.YES_NO_OPTION;
-        int dialogResult = JOptionPane.showConfirmDialog (null, "Would You Like to play another game?","GG You won!",dialogButton);
-        if (dialogResult == JOptionPane.YES_OPTION){
-
-        } else{
-            Platform.exit();
-        }
-
+    public static void infoBox(String infoMessage, String titleBar) {
+        JOptionPane.showMessageDialog(null, infoMessage, titleBar, JOptionPane.INFORMATION_MESSAGE);
+        Platform.exit();
     }
 
     public Game() {
@@ -240,6 +237,9 @@ public class Game extends Pane {
                 msg = String.format("Placed %s to a new pile.", card);
         } else {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
+            if (isGameWon()) {
+                infoBox("GG you won", "GG");
+            }
         }
         System.out.println(msg);
         MouseUtil.slideToDest(draggedCards, destPile);
