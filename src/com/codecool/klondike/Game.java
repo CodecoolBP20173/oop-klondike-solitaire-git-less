@@ -264,7 +264,7 @@ public class Game extends Pane {
         } else {
             msg = String.format("Placed %s to %s.", card, destPile.getTopCard());
             if (isGameWon()) {
-                infoBox("GG you won", "GG");
+                infoBox("Congratulations! You won the game!", "Congratulations!");
             }
         }
         System.out.println(msg);
